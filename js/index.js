@@ -1,3 +1,5 @@
+
+
 // элементы в DOM можно получить при помощи функции querySelector
 const fruitsList = document.querySelector('.fruits__list'); // список карточек
 const shuffleButton = document.querySelector('.shuffle__btn'); // кнопка перемешивания
@@ -31,8 +33,44 @@ const display = () => {
   // чтобы заполнить актуальными данными из fruits
 
   for (let i = 0; i < fruits.length; i++) {
-    // TODO: формируем новый элемент <li> при помощи document.createElement,
-    // и добавляем в конец списка fruitsList при помощи document.appendChild
+    let kind = fruits[i].kind;
+    let color = fruits[i].color;
+    let weight = fruits[i].weight;
+    let loroDiv =
+      (color === 'фиолетовый') ? 'fruit_violet' :
+        (color === 'зеленый') ? 'fruit_green' :
+          (color === 'розово-красный') ? 'fruit_carmazin' :
+            (color === 'желтый') ? 'fruit_yellow' :
+              (color === 'светло-коричневый') ? 'fruit_lightbrown' : '';
+    let fruitItem = document.createElement('li');
+
+    fruitItem.classList.add('fruit__item', loroDiv);
+    fruitsList.appendChild(fruitItem);
+
+
+    let fruitInfo = document.createElement('div');
+    fruitInfo.classList.add('fruit__info');
+    fruitItem.appendChild(fruitInfo);
+
+    let indexElement = document.createElement('div');
+    let indexText = document.createTextNode(`index: ${i}`);
+    indexElement.appendChild(indexText);
+    fruitInfo.appendChild(indexElement);
+
+    let kindElement = document.createElement('div');
+    let kindText = document.createTextNode(`kind: ${kind}`);
+    kindElement.appendChild(kindText);
+    fruitInfo.appendChild(kindElement);
+
+    let colorElement = document.createElement('div');
+    let colorText = document.createTextNode(`color: ${color}`);
+    colorElement.appendChild(colorText);
+    fruitInfo.appendChild(colorElement);
+
+    let weightElement = document.createElement('div');
+    let weightText = document.createTextNode(`weight: ${weight}`);
+    weightElement.appendChild(weightText);
+    fruitInfo.appendChild(weightElement);
   }
 };
 
@@ -45,13 +83,13 @@ display();
 const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
-
 // перемешивание массива
 const shuffleFruits = () => {
   let result = [];
 
   // ATTENTION: сейчас при клике вы запустите бесконечный цикл и браузер зависнет
   while (fruits.length > 0) {
+    
     // TODO: допишите функцию перемешивания массива
     //
     // Подсказка: находим случайный элемент из fruits, используя getRandomInt
