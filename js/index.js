@@ -9,6 +9,8 @@ const sortActionButton = document.querySelector('.sort__action__btn'); // кно
 const kindInput = document.querySelector('.kind__input'); // поле с названием вида
 const colorInput = document.querySelector('.color__input'); // поле с названием цвета
 const weightInput = document.querySelector('.weight__input'); // поле с весом
+const minweightInput = document.querySelector('.minweight__input');
+const maxweightInput = document.querySelector('.maxweight__input');
 const addActionButton = document.querySelector('.add__action__btn'); // кнопка добавления
 
 // список фруктов в JSON формате
@@ -108,7 +110,7 @@ shuffleButton.addEventListener('click', () => {
 // фильтрация массива
 const filterFruits = () => {
     result = fruits.filter((item) => {
-        return item.weight > 13;
+        return item.weight >= minweightInput.value && item.weight <= maxweightInput.value;
     });
     fruits = result;
 };
@@ -124,18 +126,26 @@ let sortKind = 'bubbleSort'; // инициализация состояния в
 let sortTime = '-'; // инициализация состояния времени сортировки
 
 const comparationColor = (a, b) => {
-    if (a.color < b.color) {
-        return -1;
-    }
-    if (a.color > b.color) {
-        return 1;
-    }
-    return 0;
+    return a.color > b.color ? true : false;
 };
+
 
 const sortAPI = {
     bubbleSort(arr, comparation) {
-        arr.sort(comparation);
+        const n = arr.length;
+        // внешняя итерация по элементам
+        for (let i = 0; i < n - 1; i++) {
+            // внутренняя итерация для перестановки элемента в конец массива
+            for (let j = 0; j < n - 1 - i; j++) {
+                // сравниваем элементы
+                if (comparation(arr[j], arr[j + 1])) {
+                    // делаем обмен элементов
+                    let temp = arr[j + 1];
+                    arr[j + 1] = arr[j];
+                    arr[j] = temp;
+                }
+            }
+        }
     },
 
     quickSort(arr, comparation) {
@@ -148,6 +158,7 @@ const sortAPI = {
         sort(arr, comparation);
         const end = new Date().getTime();
         sortTime = `${end - start} ms`;
+        console.log(sortTime);
     },
 };
 
@@ -162,7 +173,6 @@ sortChangeButton.addEventListener('click', () => {
 sortActionButton.addEventListener('click', () => {
     // TODO: вывести в sortTimeLabel значение 'sorting...'
     const sort = sortAPI[sortKind];
-    console.log(sortTime);
     sortAPI.startSort(sort, fruits, comparationColor);
     display();
     // TODO: вывести в sortTimeLabel значение sortTime
