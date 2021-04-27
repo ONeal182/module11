@@ -157,11 +157,11 @@ const sortAPI = {
         const start = new Date().getTime();
         sort(arr, comparation);
         const end = new Date().getTime();
-        sortTime = `${end - start} ms`;
-        console.log(sortTime);
+        sortTime = ` - ${end - start} ms`;
+
     },
 };
-
+console.log(sortTime);
 // инициализация полей
 sortKindLabel.textContent = sortKind;
 sortTimeLabel.textContent = sortTime;
@@ -175,6 +175,7 @@ sortActionButton.addEventListener('click', () => {
     const sort = sortAPI[sortKind];
     sortAPI.startSort(sort, fruits, comparationColor);
     display();
+    sortTimeLabel.textContent = sortTime;
     // TODO: вывести в sortTimeLabel значение sortTime
 });
 
