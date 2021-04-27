@@ -29,7 +29,7 @@ let fruits = JSON.parse(fruitsJSON);
 const display = () => {
     // TODO: очищаем fruitsList от вложенных элементов,
     // чтобы заполнить актуальными данными из fruits
-
+    fruitsList.innerHTML = "";
     for (let i = 0; i < fruits.length; i++) {
         let kind = fruits[i].kind;
         let color = fruits[i].color;
@@ -85,15 +85,17 @@ const getRandomInt = (min, max) => {
 const shuffleFruits = () => {
     let result = [];
     let i = 0;
-    // ATTENTION: сейчас при клике вы запустите бесконечный цикл и браузер зависнет
     while (fruits.length > 0) {
         let random = getRandomInt(0, fruits.length - 1);
         let elem = fruits.splice(random, 1)[0];
         result.push(elem);
         i++;
     }
-    fruits = result;
-    console.log(result);
+    if (fruits === result) {
+        alert('Массив не изменился');
+    } else {
+        fruits = result;
+    }
 };
 
 shuffleButton.addEventListener('click', () => {
@@ -105,9 +107,10 @@ shuffleButton.addEventListener('click', () => {
 
 // фильтрация массива
 const filterFruits = () => {
-    fruits.filter((item) => {
-        // TODO: допишите функцию
+    result = fruits.filter((item) => {
+        return item.weight > 13;
     });
+    fruits = result;
 };
 
 filterButton.addEventListener('click', () => {
@@ -121,12 +124,18 @@ let sortKind = 'bubbleSort'; // инициализация состояния в
 let sortTime = '-'; // инициализация состояния времени сортировки
 
 const comparationColor = (a, b) => {
-    // TODO: допишите функцию сравнения двух элементов по цвету
+    if (a.color < b.color) {
+        return -1;
+    }
+    if (a.color > b.color) {
+        return 1;
+    }
+    return 0;
 };
 
 const sortAPI = {
     bubbleSort(arr, comparation) {
-        // TODO: допишите функцию сортировки пузырьком
+        arr.sort(comparation);
     },
 
     quickSort(arr, comparation) {
@@ -153,6 +162,7 @@ sortChangeButton.addEventListener('click', () => {
 sortActionButton.addEventListener('click', () => {
     // TODO: вывести в sortTimeLabel значение 'sorting...'
     const sort = sortAPI[sortKind];
+    console.log(sortTime);
     sortAPI.startSort(sort, fruits, comparationColor);
     display();
     // TODO: вывести в sortTimeLabel значение sortTime
