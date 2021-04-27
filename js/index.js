@@ -41,7 +41,7 @@ const display = () => {
             (color === 'зеленый') ? 'fruit_green' :
             (color === 'розово-красный') ? 'fruit_carmazin' :
             (color === 'желтый') ? 'fruit_yellow' :
-            (color === 'светло-коричневый') ? 'fruit_lightbrown' : '';
+            (color === 'светло-коричневый') ? 'fruit_lightbrown' : 'fruit_unknown';
         let fruitItem = document.createElement('li');
 
         fruitItem.classList.add('fruit__item', loroDiv);
@@ -179,9 +179,29 @@ sortActionButton.addEventListener('click', () => {
 });
 
 /*** ДОБАВИТЬ ФРУКТ ***/
+var empty;
+const emptyValue = (element) => {
+    let text = element.previousElementSibling.textContent;
+    if (element.value === '') {
+        alert(`Вы не заполнили поле ${text}`);
+        empty = true;
+    } else {
 
+    }
+}
 addActionButton.addEventListener('click', () => {
-    // TODO: создание и добавление нового фрукта в массив fruits
-    // необходимые значения берем из kindInput, colorInput, weightInput
+
+    emptyValue(kindInput);
+    emptyValue(colorInput);
+    emptyValue(weightInput);
+    if (empty === true) {
+        return false;
+    }
+    let newFruitsJSON = `
+      {"kind": "${kindInput.value}", "color": "${colorInput.value}", "weight": "${weightInput.value}"}
+    `;
+
+    let newFruits = JSON.parse(newFruitsJSON);
+    fruits.push(newFruits);
     display();
 });
