@@ -110,7 +110,12 @@ shuffleButton.addEventListener('click', () => {
 // фильтрация массива
 const filterFruits = () => {
     result = fruits.filter((item) => {
-        return item.weight >= minweightInput.value && item.weight <= maxweightInput.value;
+        if (minweightInput.value != '' && maxweightInput.value != '') {
+            return item.weight >= minweightInput.value && item.weight <= maxweightInput.value;
+        } else {
+            alert('Заполните поля сортировки');
+        }
+
     });
     fruits = result;
 };
